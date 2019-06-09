@@ -13,7 +13,7 @@ class PlayerObject extends Phaser.Physics.Arcade.Sprite {
 		scene.physics.add.collider(this, scene.data.get("solidgroup"));
 		scene.events.addListener("update", this.update, this);
 		
-		this.setOrigin(0.5, 1);
+		this.setOrigin(0.5, 1 - 1/40);
 		
 		this.setSize(15, 39).setOffset(10, 0);
 		
