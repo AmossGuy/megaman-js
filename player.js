@@ -13,8 +13,9 @@ class PlayerObject extends Phaser.Physics.Arcade.Sprite {
 		scene.physics.add.collider(this, scene.data.get("solidgroup"));
 		scene.events.addListener("update", this.update, this);
 		
-		this.setOrigin(0.5, 1 - 1/40);
+		this.setData("state", "");
 		
+		this.setOrigin(0.5, 1 - 1/40);
 		this.setSize(15, 39).setOffset(10, 0);
 		
 		scene.add.existing(this);
@@ -37,8 +38,14 @@ class PlayerObject extends Phaser.Physics.Arcade.Sprite {
 				break;
 		}
 		
-		if (this.data.get("keys")["jump"].isDown && this.body.onFloor()) {
-			this.setVelocityY(-5 * 60); // fix
+		if (this.getData("state") == "jump" && (this.body.onFloor() || this.body.onCeiling() || !this.data.get("keys")["jump"].isDown)) {
+			this.setData("state", "");
+			this.setVelocityY(0);
+		}
+		
+		if (this.data.get("keys")["jump"].isDown && (this.body.onFloor() || this.getData("state") == "jump")) {
+			this.setData("state", "jump");
+			this.setVelocityY(-5 * 60);
 		}
 	}
 }
