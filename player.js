@@ -40,12 +40,14 @@ class PlayerObject extends Phaser.Physics.Arcade.Sprite {
 		
 		if (this.getData("state") == "jump" && (this.body.onFloor() || this.body.onCeiling() || !this.data.get("keys")["jump"].isDown)) {
 			this.setData("state", "");
-			this.setVelocityY(0);
+			if (Math.sign(this.body.velocity.y) == -1) {
+				this.setVelocityY(0);
+			}
 		}
 		
-		if (this.data.get("keys")["jump"].isDown && (this.body.onFloor() || this.getData("state") == "jump")) {
+		if (this.data.get("keys")["jump"].isDown && this.body.onFloor()) {
 			this.setData("state", "jump");
-			this.setVelocityY(-5 * 60);
+			this.setVelocityY(-5.7 * 60);
 		}
 	}
 }
